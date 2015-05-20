@@ -1,6 +1,6 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
-# BinaryTree Makefile
+# LinkedList Makefile
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -15,7 +15,7 @@ CC = gcc
 FLAGS = -I../. -O -g -Wall
 
 # Program name
-PROGRAM = BinaryTree
+PROGRAM = LinkedList
 UNITTEST = UnitTest
 PROGRAM_TEST = $(PROGRAM)_$(UNITTEST)
 

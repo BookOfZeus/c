@@ -7,7 +7,7 @@
  * Define the basic node type
  */
 struct treeNode {
-	int val;
+	int value;
 	struct treeNode *right;
 	struct treeNode *left;
 };
@@ -16,13 +16,19 @@ struct treeNode {
 // Lookup functions
 //
 
+int exists(struct treeNode **node, int value);
+
 int getHeight(struct treeNode **node);
 
-int exists(struct treeNode **node, int x);
+int isBalanced(struct treeNode **tree);
+
+int isFull(struct treeNode **tree);
 
 int isPerfect(struct treeNode **tree);
 
-int isFull(struct treeNode **tree);
+struct treeNode * search(struct treeNode *tree, int);
+
+struct treeNode * searchChild(struct treeNode **tree, int);
 
 //
 // CRUD functions

@@ -1,51 +1,23 @@
 #include "BinaryTree.h"
 
+//
+// Lookup functions
+//
+
 /**
- * Add a node to a tree
+ * Check if a node exist in a tree
  */
-void addNode(struct treeNode **tree, struct treeNode *node) {
+int exists(struct treeNode **tree, int value) {
 	if (*tree == NULL) {
-		*tree = node;
-		return;
+		return 0;
 	}
-	if(node->val < (*tree)->val) {
-		addNode(&(*tree)->left, node);
+	if (value < (*tree)->value) {
+		return exists(&(*tree)->left, value);
 	}
-	if(node->val > (*tree)->val) {
-		addNode(&(*tree)->right, node);
+	if(value > (*tree)->value) { 
+		return exists(&(*tree)->right, value);
 	}
-}
-
-/**
- * Create a new node for the tree
- */
-struct treeNode *createNode(int x) {
-	struct treeNode *tmp = malloc(sizeof(struct treeNode));
-	if(tmp == NULL) {
-		printf("ERROR: Out of Memory\n");
-		exit(EXIT_FAILURE);
-	}
-	tmp->left = NULL;
-	tmp->right = NULL;
-	tmp->val = x;
-	return tmp;
-}
-
-/**
- * Delete a node
- */
-void deleteNode(struct treeNode **node) {
-	if (*node == NULL) {
-		return;
-	}
-	if ((*node)->left != NULL) {
-		deleteNode(&(*node)->left);
-	}
-	if ((*node)->right != NULL) {
-		deleteNode(&(*node)->right);
-	}
-	free(*node);
-	*node = NULL;
+	return 1;
 }
 
 /**
@@ -61,18 +33,22 @@ int getHeight(struct treeNode **node) {
 } 
 
 /**
- * Check if a node is perfect
+ * Check if a tree is balanced
  */
-int isPerfect(struct treeNode **tree) {
+int isBalanced(struct treeNode **tree) {
 	if(*tree == NULL) {
 		return 1; 
 	}
-	int heightLeft  = getHeight(&(*tree)->left);
-	int heightRight = getHeight(&(*tree)->right);
-	if(heightLeft != heightRight) {
-		return 0;
+	if ((*tree)->left == NULL && (*tree)->right == NULL) {
+		return 1;
 	}
-	return isPerfect(&(*tree)->left) && isPerfect(&(*tree)->right);
+	if ((*tree)->left != NULL) {
+		return (*tree)->left->value < (*tree)->value && isBalanced(&(*tree)->left);
+	}
+	if ((*tree)->right != NULL) {
+		return (*tree)->right->value > (*tree)->value && isBalanced(&(*tree)->right);
+	}
+	return 0;
 }
 
 /**
@@ -92,20 +68,93 @@ int isFull(struct treeNode **tree) {
 }
 
 /**
- * Check if a node exist in a tree
+ * Check if a node is perfect
  */
-int exists(struct treeNode **tree, int x) {
-	if (*tree == NULL) {
+int isPerfect(struct treeNode **tree) {
+	if(*tree == NULL) {
+		return 1; 
+	}
+	int heightLeft  = getHeight(&(*tree)->left);
+	int heightRight = getHeight(&(*tree)->right);
+	if(heightLeft != heightRight) {
 		return 0;
 	}
-	if (x < (*tree)->val) {
-		return exists(&(*tree)->left, x);
-	}
-	if( x > (*tree)->val) { 
-		return exists(&(*tree)->right, x);
-	}
-	return 1;
+	return isPerfect(&(*tree)->left) && isPerfect(&(*tree)->right);
 }
+
+/**
+ * Search for a node for a value in a tree
+ */
+struct treeNode * search(struct treeNode *tree, int value) {
+	if(tree == NULL) {
+		return NULL;
+	}
+	if(tree->value == value) {
+		return tree;
+	}
+	else if (value < tree->value) {
+		search(tree->left, value);
+	}
+	else if (value > tree->value) {
+		search(tree->right, value);
+	}
+}
+
+//
+// CRUD functions
+//
+
+/**
+ * Add a node to a tree
+ */
+void addNode(struct treeNode **tree, struct treeNode *node) {
+	if (*tree == NULL) {
+		*tree = node;
+		return;
+	}
+	if(node->value < (*tree)->value) {
+		addNode(&(*tree)->left, node);
+	}
+	if(node->value > (*tree)->value) {
+		addNode(&(*tree)->right, node);
+	}
+}
+
+/**
+ * Create a new node for the tree
+ */
+struct treeNode *createNode(int value) {
+	struct treeNode *tmp = malloc(sizeof(struct treeNode));
+	if(tmp == NULL) {
+		printf("ERROR: Out of Memory\n");
+		exit(EXIT_FAILURE);
+	}
+	tmp->left = NULL;
+	tmp->right = NULL;
+	tmp->value = value;
+	return tmp;
+}
+
+/**
+ * Delete a node and it's successors
+ */
+void deleteNode(struct treeNode **node) {
+	if (*node == NULL) {
+		return;
+	}
+	if ((*node)->left != NULL) {
+		deleteNode(&(*node)->left);
+	}
+	if ((*node)->right != NULL) {
+		deleteNode(&(*node)->right);
+	}
+	free(*node);
+	*node = NULL;
+}
+
+//
+// Output
+//
 
 /**
  * Show the tree in a file/folder structure format
@@ -115,7 +164,7 @@ void display(struct treeNode *tree, int level) {
 		printf("\n** Tree is empty **\n");
 		return;
 	}
-	printf("%*.*s%d\n", level, 0, " ", tree->val); 
+	printf("%*.*s%d\n", level, 0, " ", tree->value); 
 	if(tree->left) {
 		display(tree->left, level + 2);
 	}
@@ -130,7 +179,7 @@ void display(struct treeNode *tree, int level) {
 void inOrder(struct treeNode *node) {
 	if(node != NULL) {
 		inOrder(node->left) ;
-		printf ("%d, ", node->val) ;
+		printf ("%d, ", node->value);
 		inOrder(node->right) ;
 	}
 }
@@ -140,7 +189,7 @@ void inOrder(struct treeNode *node) {
  */
 void preOrder(struct treeNode *node) {
 	if(node != NULL) {
-		printf ("%d, ", node->val) ;
+		printf ("%d, ", node->value);
 		preOrder(node->left) ;
 		preOrder(node->right) ;
 	}
@@ -153,6 +202,6 @@ void postOrder(struct treeNode *node) {
 	if(node != NULL) {
 		postOrder(node->left) ;
 		postOrder(node->right) ;
-		printf ("%d, ", node->val) ;
+		printf ("%d, ", node->value);
 	}
 }
