@@ -20,6 +20,8 @@ int exists(struct treeNode **node, int value);
 
 int getHeight(struct treeNode **node);
 
+int getSize(struct treeNode **tree);
+
 int isBalanced(struct treeNode **tree);
 
 int isFull(struct treeNode **tree);
@@ -27,8 +29,6 @@ int isFull(struct treeNode **tree);
 int isPerfect(struct treeNode **tree);
 
 struct treeNode * search(struct treeNode *tree, int);
-
-struct treeNode * searchChild(struct treeNode **tree, int);
 
 //
 // CRUD functions

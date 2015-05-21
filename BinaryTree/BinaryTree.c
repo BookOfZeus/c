@@ -11,13 +11,16 @@ int exists(struct treeNode **tree, int value) {
 	if (*tree == NULL) {
 		return 0;
 	}
+	if(!isBalanced(&(*tree))) {
+		return 0;
+	}
 	if (value < (*tree)->value) {
 		return exists(&(*tree)->left, value);
 	}
 	if(value > (*tree)->value) { 
 		return exists(&(*tree)->right, value);
 	}
-	return 1;
+	return value == (*tree)->value;
 }
 
 /**
@@ -31,6 +34,16 @@ int getHeight(struct treeNode **node) {
 	int heightRight = getHeight(&(*node)->right);
 	return max(heightLeft, heightRight) + 1;
 } 
+
+/**
+ * Get the size of the tree
+ */
+int getSize(struct treeNode **tree) {
+	if(*tree == NULL) {
+		return 0;
+	}
+	return 1 + getSize(&(*tree)->left) + getSize(&(*tree)->right);
+}
 
 /**
  * Check if a tree is balanced

@@ -7,15 +7,15 @@ int test_exists() {
 	int valid = 0;
 	struct treeNode *root = NULL;
 
-	root		= createNode(182);
-	root->left	= createNode(2);
-	root->right	= createNode(59);
-	root->left->left	= createNode(165);
-	root->left->right	= createNode(73);
-	root->right->left	= createNode(42);
-	root->right->right	= createNode(651);
+	root		= createNode(100);
+	root->left	= createNode(50);
+	root->right	= createNode(150);
+	root->left->left	= createNode(25);
+	root->left->right	= createNode(75);
+	root->right->left	= createNode(125);
+	root->right->right	= createNode(175);
 
-	valid += assertTrue("error: 2 IS in the tree", exists(&root, 2));
+	valid += assertTrue("error: 75 IS in the tree", exists(&root, 75));
 
 	valid += assertTrue("error: 99 IS in the tree", !exists(&root, 99));
 
@@ -224,10 +224,32 @@ int test_deleteTree() {
 	return valid;
 }
 
+/**
+ */
+int test_getSize() {
+	int valid = 0;
+	int size = 0;
+	struct treeNode *root = NULL;
+
+	root		= createNode(4);
+	root->left	= createNode(2);
+	root->right	= createNode(6);
+
+	size = getSize(&root);
+	valid += assertTrue("test_size: Wrong size of the tree (should be 3)", size == 3);
+
+	deleteNode(&root);
+
+	size = getSize(&root);
+	valid += assertTrue("test_size: Wrong size of the tree (should be 0)", size == 0);
+
+	return valid;
+}
+
 /* Define UnitTests Lookup functions */
 
 int getNumberTest() {
-	return 7;
+	return 8;
 }
 
 void getUnitTest(UnitTestFunction tests[], char *list[])
@@ -254,4 +276,8 @@ void getUnitTest(UnitTestFunction tests[], char *list[])
 
 	tests[id]  = test_deleteTree;
 	list[id++] = "test_deleteTree";
+
+	tests[id]  = test_getSize;
+	list[id++] = "test_getSize";
+
 }
