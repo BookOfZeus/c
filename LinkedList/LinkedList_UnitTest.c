@@ -95,6 +95,48 @@ int test_maxValue() {
 
 /**
  */
+int test_getNext() {
+	int valid = 0;
+	int after = 0;
+	struct linkedListNode *root = NULL;
+
+	addNode(&root, createNode(1));
+	addNode(&root, createNode(2));
+	addNode(&root, createNode(3));
+	addNode(&root, createNode(4));
+
+	after = getNext(root, 1);
+	valid += assertTrue("test_getNext: Should be 2", after == 2);
+
+	after = getNext(root, 4);
+	valid += assertTrue("test_getNext: Last element of the list", after == 0);
+
+	return valid;
+}
+
+/**
+ */
+int test_getPrevious() {
+	int valid = 0;
+	int previous = 0;
+	struct linkedListNode *root = NULL;
+
+	addNode(&root, createNode(1));
+	addNode(&root, createNode(2));
+	addNode(&root, createNode(3));
+	addNode(&root, createNode(4));
+
+	previous = getPrevious(root, 1);
+	valid += assertTrue("test_getPrevious: First element of the list", previous == 0);
+
+	previous = getPrevious(root, 3);
+	valid += assertTrue("test_getPrevious: Should be 2", previous == 2);
+
+	return valid;
+}
+
+/**
+ */
 int test_removeNode() {
 	int valid = 0;
 	int count = 0;
@@ -172,10 +214,61 @@ int test_insertBefore() {
 	return valid;
 }
 
+int test_removeAfter() {
+	int valid = 0;
+	struct linkedListNode *root = NULL;
+
+	addNode(&root, createNode(1));
+	addNode(&root, createNode(2));
+	addNode(&root, createNode(3));
+	addNode(&root, createNode(4));
+
+	removeAfter(&root, 3);
+
+	int exist = exists(root, 4);
+	valid += assertTrue("test_removeAfter: The list element 4 removed", exist == 0);
+
+	removeAfter(&root, 3);
+
+	int count = countNode(root);
+	valid += assertTrue("test_removeAfter: The list has 3 nodes", count == 3);
+
+	deleteList(&root);
+
+	return valid;
+}
+
+/**
+ */
+int test_removeBefore() {
+
+	int valid = 0;
+	struct linkedListNode *root = NULL;
+
+	addNode(&root, createNode(1));
+	addNode(&root, createNode(2));
+	addNode(&root, createNode(3));
+	addNode(&root, createNode(4));
+
+	removeBefore(&root, 3);
+
+	int exist = exists(root, 2);
+	valid += assertTrue("test_removeAfter: The list element 2 removed", exist == 0);
+
+	removeBefore(&root, 1);
+
+	int count = countNode(root);
+	valid += assertTrue("test_removeBefore: The list has 3 nodes", count == 3);
+
+	deleteList(&root);
+
+	return valid;
+}
+
 /* Define UnitTests Lookup functions */
 
 int getNumberTest() {
-	return 7;
+	return 11;
 }
 
 void getUnitTest(UnitTestFunction tests[], char *list[])
@@ -194,6 +287,12 @@ void getUnitTest(UnitTestFunction tests[], char *list[])
 	tests[id]	= test_maxValue;
 	list[id++] = "test_maxValue";
 
+	tests[id]	= test_getNext;
+	list[id++] = "test_getNext";
+
+	tests[id]	= test_getPrevious;
+	list[id++] = "test_getPrevious";
+
 	tests[id]	= test_removeNode;
 	list[id++] = "test_removeNode";
 
@@ -202,4 +301,10 @@ void getUnitTest(UnitTestFunction tests[], char *list[])
 
 	tests[id]	= test_insertBefore;
 	list[id++] = "test_insertBefore";
+
+	tests[id]	= test_removeAfter;
+	list[id++] = "test_removeAfter";
+
+	tests[id]	= test_removeBefore;
+	list[id++] = "test_removeBefore";
 }

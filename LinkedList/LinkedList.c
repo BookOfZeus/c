@@ -8,6 +8,16 @@ int isEmpty(struct linkedListNode *root) {
 }
 
 /**
+ * Count the number of nodes in a list
+ */
+int countNode(struct linkedListNode *root) {
+	if(isEmpty(root)) {
+		return 0;
+	}
+	return 1 + countNode(root->next);
+}
+
+/**
  * Check if a value exists in the list
  */
 int exists(struct linkedListNode *root, int value) {
@@ -21,13 +31,41 @@ int exists(struct linkedListNode *root, int value) {
 }
 
 /**
- * Count the number of nodes in a list
+ * Get the next value of a node
  */
-int countNode(struct linkedListNode *root) {
-	if(isEmpty(root)) {
+int getNext(struct linkedListNode *node, int value) {
+	if(isEmpty(node)) {
 		return 0;
 	}
-	return 1 + countNode(root->next);
+	if(!exists(node, value)) {
+		return 0;
+	}
+	if(node->next == NULL) {
+		return 0;
+	}
+	if(node->value == value) {
+		return node->next->value;
+	}
+	getNext(node->next, value);
+}
+
+/**
+ * Get the previous value of a node
+ */
+int getPrevious(struct linkedListNode *node, int value) {
+	if(isEmpty(node)) {
+		return 0;
+	}
+	if(!exists(node, value)) {
+		return 0;
+	}
+	if(node->value == value) {
+		return 0;
+	}
+	if(node->next->value == value) {
+		return node->value;
+	}
+	getPrevious(node->next, value);
 }
 
 /**
@@ -125,6 +163,9 @@ void removeNode(struct linkedListNode **root, int value) {
 	if(isEmpty(*root)) {
 		return;
 	}
+	if(!exists(*root, value)) {
+		return;
+	}
 	struct linkedListNode *previous = NULL;
 	struct linkedListNode *current = *root;
 	for(; current != NULL; previous = current, current = current->next) {
@@ -139,6 +180,40 @@ void removeNode(struct linkedListNode **root, int value) {
 			return;
 		}
 	}
+}
+
+/**
+ * Remove a node after a value
+ */
+void removeAfter(struct linkedListNode **root, int value) {
+	if(isEmpty(*root)) {
+		return;
+	}
+	if(!exists(*root, value)) {
+		return;
+	}
+	int after = getNext((*root), value);
+	if(after == 0) {
+		return;
+	}
+	removeNode(&(*root), after);
+}
+
+/**
+ * Remove a node before a value
+ */
+void removeBefore(struct linkedListNode **root, int value) {
+	if(isEmpty(*root)) {
+		return;
+	}
+	if(!exists(*root, value)) {
+		return;
+	}
+	int before = getPrevious((*root), value);
+	if(before == 0) {
+		return;
+	}
+	removeNode(&(*root), before);
 }
 
 /**

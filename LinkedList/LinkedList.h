@@ -15,9 +15,13 @@ struct linkedListNode {
 
 int isEmpty(struct linkedListNode *root);
 
+int countNode(struct linkedListNode *root);
+
 int exists(struct linkedListNode *node, int value);
 
-int countNode(struct linkedListNode *root);
+int getNext(struct linkedListNode *node, int value);
+
+int getPrevious(struct linkedListNode *node, int value);
 
 int maxValue(struct linkedListNode *root);
 
@@ -36,6 +40,10 @@ void insertAfter(struct linkedListNode **root, struct linkedListNode *node, int 
 void insertBefore(struct linkedListNode **root, struct linkedListNode *node, int value);
 
 void removeNode(struct linkedListNode **root, int value);
+
+void removeAfter(struct linkedListNode **root, int value);
+
+void removeBefore(struct linkedListNode **root, int value);
 
 //
 // Output
