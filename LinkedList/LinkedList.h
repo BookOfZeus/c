@@ -31,6 +31,10 @@ struct linkedListNode * createNode(int value);
 
 void deleteList(struct linkedListNode **root);
 
+void insertAfter(struct linkedListNode **root, struct linkedListNode *node, int value);
+
+void insertBefore(struct linkedListNode **root, struct linkedListNode *node, int value);
+
 void removeNode(struct linkedListNode **root, int value);
 
 //

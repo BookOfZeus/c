@@ -83,6 +83,42 @@ void deleteList(struct linkedListNode **root) {
 }
 
 /**
+ * Insert a node after a specific value
+ */
+void insertAfter(struct linkedListNode **root, struct linkedListNode *node, int value) {
+	if(isEmpty(*root)) {
+		return;
+	}
+	if((*root)->value == value) {
+		if((*root)->next != NULL) {
+			node->next = (*root)->next;
+		}
+		(*root)->next = node;
+	}
+	insertAfter(&(*root)->next, node, value);
+}
+
+/**
+ * Insert a node before a specific value
+ */
+void insertBefore(struct linkedListNode **root, struct linkedListNode *node, int value) {
+	if(isEmpty(*root)) {
+		return;
+	}
+	if((*root)->value == value) {
+		node->next = *root;
+		*root = node;
+		return;
+	}
+	else if((*root)->next->value == value) {
+		node->next = (*root)->next;
+		(*root)->next = node;
+		return;
+	}
+	insertBefore(&(*root)->next, node, value);
+}
+
+/**
  * Remove a node from the list
  */
 void removeNode(struct linkedListNode **root, int value) {

@@ -124,10 +124,58 @@ int test_removeNode() {
 	return valid;
 }
 
+/**
+ */
+int test_insertAfter() {
+	int valid = 0;
+	struct linkedListNode *root = NULL;
+
+	addNode(&root, createNode(1));
+	addNode(&root, createNode(2));
+	addNode(&root, createNode(3));
+	addNode(&root, createNode(4));
+
+	insertAfter(&root, createNode(9), 3);
+
+	int exist = exists(root, 9);
+	valid += assertTrue("test_insertAfter: The list has 9", exist == 1);
+
+	int count = countNode(root);
+	valid += assertTrue("test_insertAfter: The list has 5 nodes", count == 5);
+
+	deleteList(&root);
+
+	return valid;
+}
+
+/**
+ */
+int test_insertBefore() {
+	int valid = 0;
+	struct linkedListNode *root = NULL;
+
+	addNode(&root, createNode(1));
+	addNode(&root, createNode(2));
+	addNode(&root, createNode(3));
+	addNode(&root, createNode(4));
+
+	insertBefore(&root, createNode(9), 1);
+
+	int exist = exists(root, 9);
+	valid += assertTrue("test_insertAfter: The list has 9", exist == 1);
+
+	int count = countNode(root);
+	valid += assertTrue("test_insertAfter: The list has 5 nodes", count == 5);
+
+	deleteList(&root);
+
+	return valid;
+}
+
 /* Define UnitTests Lookup functions */
 
 int getNumberTest() {
-	return 5;
+	return 7;
 }
 
 void getUnitTest(UnitTestFunction tests[], char *list[])
@@ -148,4 +196,10 @@ void getUnitTest(UnitTestFunction tests[], char *list[])
 
 	tests[id]	= test_removeNode;
 	list[id++] = "test_removeNode";
+
+	tests[id]	= test_insertAfter;
+	list[id++] = "test_insertAfter";
+
+	tests[id]	= test_insertBefore;
+	list[id++] = "test_insertBefore";
 }
