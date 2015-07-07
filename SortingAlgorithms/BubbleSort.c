@@ -1,7 +1,10 @@
 #include "BubbleSort.h"
 
 /**
- * Sorting an array using bubble sort
+ * Bubble sort
+ *
+ * Best:  O(n)
+ * Worst: O(n²)
  */
 void bubbleSort(int array[], int size) {
 
